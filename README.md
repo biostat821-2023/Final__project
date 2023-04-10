@@ -5,6 +5,6 @@ The aim of this project is to gather clinical information from users specificall
 
 
 ## Implementation
-To achieve our objectives, we plan to develop a Python script that will prompt users to provide breast cancer-related information and convert it into an API. Subsequently, we will store the collected data in a database. Furthermore, we will create an analysis function that will offer essential yet straightforward breast cancer analysis and present the results to users through the API. Finally, we will also build a container for all our work.
+To achieve our objectives, we plan to develop a Python script and convert it into an API that will prompt users to provide breast cancer-related information. Subsequently, we will store the collected data in a build-up database. For this project, we will use some existing breast cancer datasets to mock a database. Furthermore, we will create analysis functions that will offer essential yet straightforward breast cancer analysis and present the results to users through the API. Finally, we will containerize all our work.
 
 ![Untitled drawing](https://user-images.githubusercontent.com/70648104/230992080-781d7835-48cb-4170-bd17-e628a2373beb.jpg)
