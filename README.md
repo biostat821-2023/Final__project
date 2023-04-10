@@ -13,7 +13,7 @@ To achieve our objectives, we plan to develop a Python script and convert it int
 
 2. Analytical Service
 - (1) Use Pandas and Numpy to do data analysis
-- (2) Use Dash to visulize the output
+- (2) Use Dash to visualize the output
 
 3. Containerization and CI
 - (1) Use Docker to contianerize the application
