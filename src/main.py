@@ -1,10 +1,9 @@
 """Main Python Module."""
 
-# src/utils/utils.py
 import sqlite3
 from datetime import datetime
-from src.utils.utils import Record
-from src.utils.check_db import if_create_database
+from utils.utils import Record
+from utils.check_db import if_create_database
 
 
 class Patient(Record):
@@ -37,7 +36,7 @@ class Patient(Record):
             "Patient_id": self.p_id,
             "Name": name,
             "Gender": gender,
-            "DateofBorth": dob,
+            "DateofBirth": dob,
             "Age": calculated_age,
             "Phone": phone,
             "Email": email,
