@@ -3,7 +3,10 @@
 import sqlite3
 from datetime import datetime
 
+# create connection object
 conn = sqlite3.connect("mydatabase.db")
+
+# create tables if they don't exist
 conn.execute(
     """
 CREATE TABLE Patient (
@@ -79,64 +82,62 @@ class Patient:
             except ValueError:
                 print("Please enter a valid age (an integer)")
 
-    def add_to_db(self, db_path: str) -> None:
+    def add_to_db(self) -> None:
         """Add patient demographic record to table."""
-        with sqlite3.connect(db_path) as conn:
-            c = conn.cursor()
-            # check if patient_id already exists
-            c.execute(
-                "SELECT COUNT(*) FROM Patient \
-                    WHERE patient_id = ?",
-                (self.p_id,),
-            )
-            count = c.fetchone()[0]
-            if count > 0:
-                print(f"Patient with ID {self.p_id} already exists.")
-                return
-            # insert new patient record
-            c.execute(
-                "INSERT INTO Patient "
-                "(patient_id, name, gender, dob, age, phone, email) "
-                "VALUES (?, ?, ?, ?, ?, ?, ?)",
-                (
-                    self.p_id,
-                    self.name,
-                    self.gender,
-                    self.birthdate,
-                    self.age,
-                    self.phone,
-                    self.email,
-                ),
-            )
-            conn.commit()
+        c = self.conn.cursor()
+        # check if patient_id already exists
+        c.execute(
+            "SELECT COUNT(*) FROM Patient \
+                WHERE patient_id = ?",
+            (self.p_id,),
+        )
+        count = c.fetchone()[0]
+        if count > 0:
+            print(f"Patient with ID {self.p_id} already exists.")
+            return
+        # insert new patient record
+        c.execute(
+            "INSERT INTO Patient "
+            "(patient_id, name, gender, dob, age, phone, email) "
+            "VALUES (?, ?, ?, ?, ?, ?, ?)",
+            (
+                self.p_id,
+                self.name,
+                self.gender,
+                self.birthdate,
+                self.age,
+                self.phone,
+                self.email,
+            ),
+        )
+        self.conn.commit()
 
-    def delete_from_db(self, db_path: str) -> None:
+    def delete_from_db(self) -> None:
         """Delete patient's demographic record from table."""
-        with sqlite3.connect(db_path) as conn:
-            c = conn.cursor()
-            c.execute("DELETE FROM Patient WHERE patient_id = ?", (self.p_id,))
-            c.execute("DELETE FROM Sample WHERE patient_id = ?", (self.p_id,))
-            conn.commit()
+        c = self.conn.cursor()
+        c = conn.cursor()
+        c.execute("DELETE FROM Patient WHERE patient_id = ?", (self.p_id,))
+        c.execute("DELETE FROM Sample WHERE patient_id = ?", (self.p_id,))
+        self.conn.commit()
 
-    def update_in_db(self, db_path: str) -> None:
+    def update_in_db(self) -> None:
         """Update patient's demographic record from table."""
-        with sqlite3.connect(db_path) as conn:
-            c = conn.cursor()
-            c.execute(
-                "UPDATE Patient SET name = ?, gender = ?, "
-                "dob = ?, age = ?, phone = ?, email = ? "
-                "WHERE patient_id = ?",
-                (
-                    self.name,
-                    self.gender,
-                    self.birthdate,
-                    self.age,
-                    self.phone,
-                    self.email,
-                    self.p_id,
-                ),
-            )
-            conn.commit()
+        c = self.conn.cursor()
+        c.execute(
+            "UPDATE Patient SET name = ?, gender = ?, "
+            "dob = ?, age = ?, phone = ?, email = ? "
+            "WHERE patient_id = ?",
+            (
+                self.name,
+                self.gender,
+                self.birthdate,
+                self.age,
+                self.phone,
+                self.email,
+                self.p_id,
+            ),
+        )
+        self.conn.commit()
 
 
 class Sample:
@@ -163,87 +164,84 @@ class Sample:
         self.conn = conn
         self.sample_id = sample_id
 
-    def add_to_db(self, db_path: str) -> None:
+    def add_to_db(self) -> None:
         """Add patinet's clinical record to table."""
-        with sqlite3.connect(db_path) as conn:
-            c = conn.cursor()
+        c = conn.cursor()
 
-            # Check if patient_id exists in Patient table
+        # Check if patient_id exists in Patient table
+        c.execute(
+            "SELECT COUNT(*) FROM Patient \
+            WHERE patient_id = ?",
+            (self.p_id,),
+        )
+        if c.fetchone()[0] == 0:
+            raise ValueError(
+                "Patient with patient_id {} does "
+                "not exist in database".format(self.p_id)
+            )
+
+        # Insert row into Sample table
+        c.execute(
+            "INSERT INTO Sample (patient_id, cancer_type, "
+            "collection_date, mutation_count, chemotherapy, CAS) "
+            "VALUES (?, ?, ?, ?, ?, ?)",
+            (
+                self.p_id,
+                self.cancer_type,
+                self.collection_date,
+                self.mutation_count,
+                self.chemotherapy,
+                self.CAS,
+            ),
+        )
+        self.conn.commit()
+        self.sample_id = c.lastrowid
+
+    def delete_from_db(self) -> None:
+        """Delete patient's clinical record from table."""
+        c = self.conn.cursor()
+        c.execute(
+            "SELECT patient_id FROM Sample WHERE sample_id = ?",
+            (self.sample_id,),
+        )
+        patient_id = c.fetchone()[0]
+        c.execute(
+            "DELETE FROM Sample \
+                WHERE sample_id = ?",
+            (self.sample_id,),
+        )
+        self.conn.commit()
+
+        # check if patient has any other samples in the database
+        c.execute(
+            "SELECT COUNT(*) FROM Sample " "WHERE patient_id = ?",
+            (patient_id,),
+        )
+        num_samples = c.fetchone()[0]
+
+        # if patient has no other samples, delete the patient record
+        if num_samples == 0:
             c.execute(
-                "SELECT COUNT(*) FROM Patient \
+                "DELETE FROM Patient \
                 WHERE patient_id = ?",
                 (self.p_id,),
             )
-            if c.fetchone()[0] == 0:
-                raise ValueError(
-                    "Patient with patient_id {} does "
-                    "not exist in database".format(self.p_id)
-                )
-
-            # Insert row into Sample table
-            c.execute(
-                "INSERT INTO Sample (patient_id, cancer_type, "
-                "collection_date, mutation_count, chemotherapy, CAS) "
-                "VALUES (?, ?, ?, ?, ?, ?)",
-                (
-                    self.p_id,
-                    self.cancer_type,
-                    self.collection_date,
-                    self.mutation_count,
-                    self.chemotherapy,
-                    self.CAS,
-                ),
-            )
-            conn.commit()
-            self.sample_id = c.lastrowid
-
-    def delete_from_db(self, db_path: str) -> None:
-        """Delete patient's clinical record from table."""
-        with sqlite3.connect(db_path) as conn:
-            c = conn.cursor()
-            c.execute(
-                "SELECT patient_id FROM Sample WHERE sample_id = ?",
-                (self.sample_id,),
-            )
-            patient_id = c.fetchone()[0]
-            c.execute(
-                "DELETE FROM Sample \
-                    WHERE sample_id = ?",
-                (self.sample_id,),
-            )
-            conn.commit()
-
-            # check if patient has any other samples in the database
-            c.execute(
-                "SELECT COUNT(*) FROM Sample " "WHERE patient_id = ?",
-                (patient_id,),
-            )
-            num_samples = c.fetchone()[0]
-
-            # if patient has no other samples, delete the patient record
-            if num_samples == 0:
-                c.execute(
-                    "DELETE FROM Patient \
-                    WHERE patient_id = ?",
-                    (self.p_id,),
-                )
-                conn.commit()
+            self.conn.commit()
 
     def update_in_db(self, db_path: str) -> None:
         """Update patient's clinical record from table."""
-        with sqlite3.connect(db_path) as conn:
-            c = conn.cursor()
-            c.execute(
-                "UPDATE Sample SET patient_id = ?, cancer_type = ?, "
-                "collection_date = ?, mutation_count = ?, "
-                "chemotherapy = ?, CAS = ? WHERE sample_id = ?",
-                (
-                    self.p_id,
-                    self.cancer_type,
-                    self.collection_date,
-                    self.mutation_count,
-                    self.chemotherapy,
-                    self.CAS,
-                ),
-            )
-            conn.commit()
+        c = self.conn.cursor()
+        c.execute(
+            "UPDATE Sample SET patient_id = ?, cancer_type = ?, "
+            "collection_date = ?, mutation_count = ?, "
+            "chemotherapy = ?, CAS = ? WHERE sample_id = ?",
+            (
+                self.p_id,
+                self.cancer_type,
+                self.collection_date,
+                self.mutation_count,
+                self.chemotherapy,
+                self.CAS,
+            ),
+        )
+        self.conn.commit()
