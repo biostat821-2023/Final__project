@@ -34,7 +34,11 @@ def remove_docstring_lines(path: str, lines: Iterable[int]) -> set[int]:
     """Remove docstring lines from list."""
     with open(path, "r") as stream:
         file = stream.read().split("\n")
-    return {line for line in lines if not re.match(r"^\s*(\"\"\"|''')", file[line - 1])}
+    return {
+        line
+        for line in lines
+        if not re.match(r"^\s*(\"\"\"|''')", file[line - 1])  # noqa
+    }
 
 
 def get_covered_lines(
@@ -102,7 +106,9 @@ def format_missing(missing: set[int]) -> str:
     return output
 
 
-def generate_report_line(cov: dict[str, set[int]], include_missing: bool = True) -> str:
+def generate_report_line(
+    cov: dict[str, set[int]], include_missing: bool = True
+) -> str:  # noqa
     """Generate the report line for a single file."""
     try:
         cover = f"{pct_cover(cov):6.0f}%"
@@ -132,7 +138,9 @@ def generate_report(coverage: dict[str, dict[str, set[int]]]) -> str:
         for path, cov in coverage.items()
     ]
     total_cov = {
-        "executed": set().union(*[cov["executed"] for cov in coverage.values()]),
+        "executed": set().union(
+            *[cov["executed"] for cov in coverage.values()]
+        ),  # noqa
         "missing": set().union(*[cov["missing"] for cov in coverage.values()]),
     }
     total = "TOTAL".ljust(name_width, " ") + generate_report_line(
@@ -163,8 +171,12 @@ def main(diff_txt: str, coverage_json: str) -> None:
     print(generate_report(diff_coverage), end="")
 
     total_diff_cov = {
-        "executed": set().union(*[cov["executed"] for cov in diff_coverage.values()]),
-        "missing": set().union(*[cov["missing"] for cov in diff_coverage.values()]),
+        "executed": set().union(
+            *[cov["executed"] for cov in diff_coverage.values()]
+        ),  # noqa
+        "missing": set().union(
+            *[cov["missing"] for cov in diff_coverage.values()]
+        ),  # noqa
     }
     try:
         if pct_cover(total_diff_cov) < 70:
