@@ -11,6 +11,6 @@ format:
 	mypy $(PYTHON_FILES)
 
 lint:
-	pylint --disable=R,C *.py
+	pylint --disable=R,C $(PYTHON_FILES)
 
 all: install format lint
