@@ -1,3 +1,4 @@
+# pylint: skip-file
 """Compute diff coverage. Copy from the EHR assignment of BIOSTATS 821."""
 import argparse
 from collections import defaultdict

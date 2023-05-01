@@ -11,6 +11,6 @@ format:
 	mypy $(PYTHON_FILES)
 
 lint:
-	pylint --disable=R,C $(PYTHON_FILES) --ignore=W1514 --disable=I --ignore-patterns=.github/workflows/diff_coverage.py
-
+	pylint --disable=R,C $(PYTHON_FILES)
+	
 all: install format lint
