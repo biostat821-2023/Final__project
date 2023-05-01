@@ -9,8 +9,9 @@ from src.main import Patient, Sample
 class TestPatient(unittest.TestCase):
     """Class for testing Patient's functions."""
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """Initialize."""
+        super().__init__(*args, **kwargs)
         self.conn = sqlite3.connect(":memory:")
         self.patient = Patient(self.conn, "ABC")
         self.patient.add_patient(
@@ -70,8 +71,9 @@ class TestPatient(unittest.TestCase):
 class TestSample(unittest.TestCase):
     """Class for testing Sample's functions."""
 
-    def __Init__(self):
+    def __init__(self, *args, **kwargs):
         """Initialize."""
+        super().__init__(*args, **kwargs)
         self.conn = sqlite3.connect(":memory:")
         self.sample = Sample(self.conn, "8ehciud")
         self.sample.add_sample(
