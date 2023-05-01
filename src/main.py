@@ -228,7 +228,7 @@ class Sample:
             )
             self.conn.commit()
 
-    def update_in_db(self, db_path: str) -> None:
+    def update_in_db(self) -> None:
         """Update patient's clinical record from table."""
         c = self.conn.cursor()
         c.execute(
