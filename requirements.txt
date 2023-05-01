@@ -1,0 +1,5 @@
+black 
+mypy 
+pycodestyle 
+pydocstyle
+pylint
