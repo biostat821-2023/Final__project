@@ -1,12 +1,14 @@
+PYTHON_FILES := $(shell git ls-files '*.py')
+
 install:
 	pip install --upgrade pip &&\
 	pip install -r requirements.txt
 
 format:
-	black --diff --check $(git ls-files '*.py') &&\
-	pycodestyle $(git ls-files '*.py') &&\
-    pydocstyle $(git ls-files '*.py') &&\
-	mypy $(git ls-files '*.py')
+	black --diff --check $(PYTHON_FILES) &&\
+	pycodestyle $(PYTHON_FILES) &&\
+    pydocstyle $(PYTHON_FILES) &&\
+	mypy $(PYTHON_FILES)
 
 lint:
 	pylint --disable=R,C *.py
