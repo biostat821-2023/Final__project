@@ -2,246 +2,158 @@
 
 import sqlite3
 from datetime import datetime
-
-# create connection object
-conn = sqlite3.connect("mydatabase.db")
-
-# create tables if they don't exist
-conn.execute(
-    """
-CREATE TABLE Patient (
-    patient_id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL,
-    gender TEXT NOT NULL,
-    dob DATE NOT NULL,
-    age INTEGER,
-    phone TEXT,
-    email TEXT
-)
-"""
-)
-
-conn.execute(
-    """
-CREATE TABLE Sample (
-    sample_id INTEGER PRIMARY KEY,
-    patient_id INTEGER NOT NULL,
-    collection_date DATE NOT NULL,
-    cancer_type TEXT NOT NULL,
-    mutation_count INTEGER,
-    chemotherapy TEXT,
-    CAS INTEGER,
-    FOREIGN KEY (patient_id) REFERENCES Patient(patient_id)
-)
-"""
-)
+from utils.utils import Record
+from utils.check_db import if_create_database
 
 
-class Patient:
-    """Class for patient's demographic record."""
+class Patient(Record):
+    """Class for patient's clinical record."""
 
-    def __init__(
+    def __init__(self, conn: sqlite3.Connection, patient_id: str) -> None:
+        """Initialize Sample object."""
+        super().__init__(conn, "Patient")
+        self.p_id = patient_id
+        if_create_database()
+
+    def add_patient(
         self,
         name: str,
         gender: str,
-        dob: str,
-        age: int,
+        dob: datetime,
         phone: int,
         email: str,
-        patient_id: str,
-        conn: sqlite3.Connection,
     ) -> None:
-        """Initialize Patient obejct."""
-        self.name = name
-        self.gender = gender
-        self.birthdate = datetime.strptime(dob, "%Y-%m-%d").date()
-        self.age = age
-        self.phone = phone
-        self.email = email
-        self.p_id = patient_id
-        self.conn = conn
+        """Add patient's demographic record to the database."""
+        tod = datetime.today()
+        calculated_age = (
+            tod.year - dob.year - ((tod.month, tod.day) < (dob.month, dob.day))
+        )
+        record_data = {
+            "Patient_id": self.p_id,
+            "Name": name,
+            "Gender": gender,
+            "DateofBorth": dob,
+            "Age": calculated_age,
+            "Phone": phone,
+            "Email": email,
+        }
+        self.add_to_db(record_data, "Patient_id")
 
-        # Validate age input
-        if age is not None:
-            try:
-                age_int = int(age)
-                if age_int < 0:
-                    print("Please enter a valid age (non-negative)")
-                else:
-                    tod = datetime.today()
-                    calculated_age = (
-                        tod.year
-                        - self.birthdate.year
-                        - (
-                            (tod.month, tod.day)
-                            < (self.birthdate.month, self.birthdate.day)
-                        )
-                    )
-                    if age_int != calculated_age:
-                        print("Please enter the correct age")
-            except ValueError:
-                print("Please enter a valid age (an integer)")
-
-    def add_to_db(self) -> None:
-        """Add patient demographic record to table."""
+    def delete_patient(self, patient_id: str):
+        """Delete patient's demo and clinical record from the database."""
         c = self.conn.cursor()
-        # check if patient_id already exists
+        # Find the sample id and get those clinical records
         c.execute(
-            "SELECT COUNT(*) FROM Patient \
-                WHERE patient_id = ?",
-            (self.p_id,),
-        )
-        count = c.fetchone()[0]
-        if count > 0:
-            print(f"Patient with ID {self.p_id} already exists.")
-            return
-        # insert new patient record
-        c.execute(
-            "INSERT INTO Patient "
-            "(patient_id, name, gender, dob, age, phone, email) "
-            "VALUES (?, ?, ?, ?, ?, ?, ?)",
-            (
-                self.p_id,
-                self.name,
-                self.gender,
-                self.birthdate,
-                self.age,
-                self.phone,
-                self.email,
-            ),
-        )
-        self.conn.commit()
-
-    def delete_from_db(self) -> None:
-        """Delete patient's demographic record from table."""
-        c = self.conn.cursor()
-        c = conn.cursor()
-        c.execute("DELETE FROM Patient WHERE patient_id = ?", (self.p_id,))
-        c.execute("DELETE FROM Sample WHERE patient_id = ?", (self.p_id,))
-        self.conn.commit()
-
-    def update_in_db(self) -> None:
-        """Update patient's demographic record from table."""
-        c = self.conn.cursor()
-        c.execute(
-            "UPDATE Patient SET name = ?, gender = ?, "
-            "dob = ?, age = ?, phone = ?, email = ? "
-            "WHERE patient_id = ?",
-            (
-                self.name,
-                self.gender,
-                self.birthdate,
-                self.age,
-                self.phone,
-                self.email,
-                self.p_id,
-            ),
-        )
-        self.conn.commit()
-
-
-class Sample:
-    """Class for patient's clinical record."""
-
-    def __init__(
-        self,
-        patient_id: str,
-        cancer_type: str,
-        collection_date: str,
-        mutation_count: int,
-        chemotherapy: str,
-        CAS: int,
-        conn: sqlite3.Connection,
-        sample_id=None,
-    ) -> None:
-        """Initialize Sample object."""
-        self.p_id = patient_id
-        self.cancer_type = cancer_type
-        self.collection_date = collection_date
-        self.mutation_count = mutation_count
-        self.chemotherapy = chemotherapy
-        self.CAS = CAS
-        self.conn = conn
-        self.sample_id = sample_id
-
-    def add_to_db(self) -> None:
-        """Add patinet's clinical record to table."""
-        c = conn.cursor()
-
-        # Check if patient_id exists in Patient table
-        c.execute(
-            "SELECT COUNT(*) FROM Patient \
-            WHERE patient_id = ?",
-            (self.p_id,),
-        )
-        if c.fetchone()[0] == 0:
-            raise ValueError(
-                "Patient with patient_id {} does "
-                "not exist in database".format(self.p_id)
-            )
-
-        # Insert row into Sample table
-        c.execute(
-            "INSERT INTO Sample (patient_id, cancer_type, "
-            "collection_date, mutation_count, chemotherapy, CAS) "
-            "VALUES (?, ?, ?, ?, ?, ?)",
-            (
-                self.p_id,
-                self.cancer_type,
-                self.collection_date,
-                self.mutation_count,
-                self.chemotherapy,
-                self.CAS,
-            ),
-        )
-        self.conn.commit()
-        self.sample_id = c.lastrowid
-
-    def delete_from_db(self) -> None:
-        """Delete patient's clinical record from table."""
-        c = self.conn.cursor()
-        c.execute(
-            "SELECT patient_id FROM Sample WHERE sample_id = ?",
-            (self.sample_id,),
-        )
-        patient_id = c.fetchone()[0]
-        c.execute(
-            "DELETE FROM Sample \
-                WHERE sample_id = ?",
-            (self.sample_id,),
-        )
-        self.conn.commit()
-
-        # check if patient has any other samples in the database
-        c.execute(
-            "SELECT COUNT(*) FROM Sample " "WHERE patient_id = ?",
+            f"SELECT Sample_id FROM Sample \
+                WHERE Patient_id = ?",
             (patient_id,),
         )
-        num_samples = c.fetchone()[0]
+        sample_ids = c.fetchall()
 
-        # if patient has no other samples, delete the patient record
-        if num_samples == 0:
-            c.execute(
-                "DELETE FROM Patient \
-                WHERE patient_id = ?",
-                (self.p_id,),
-            )
-            self.conn.commit()
+        # Delete all the samples associated with the patient in Sample table
+        for sample_id in sample_ids:
+            Sample(self.conn, sample_id[0]).delete_sample(sample_id[0])
 
-    def update_in_db(self) -> None:
-        """Update patient's clinical record from table."""
+        # Delete the patient's demographic record in Patient table
+        self.delete_from_db(patient_id, "Patient_id")
+
+    def update_patient(
+        self,
+        name: str,
+        gender: str,
+        dob: datetime,
+        phone: int,
+        email: str,
+    ) -> None:
+        """Update patient's demographic record in the database."""
+        tod = datetime.today()
+        calculated_age = (
+            tod.year - dob.year - ((tod.month, tod.day) < (dob.month, dob.day))
+        )
+        record_data = {
+            "Patient_id": self.p_id,
+            "Name": name,
+            "Gender": gender,
+            "DateofBirth": dob,
+            "Age": calculated_age,
+            "Phone": phone,
+            "Email": email,
+        }
+        self.update_in_db(record_data, "Patient_id")
+
+
+class Sample(Record):
+    """Class for sample record."""
+
+    def __init__(self, conn: sqlite3.Connection, sample_id: str) -> None:
+        """Initialize Sample object."""
+        super().__init__(conn, "Sample")
+        self.s_id = sample_id
+        if_create_database()
+
+    def add_sample(
+        self,
+        patient_id: str,
+        collection_date: str,
+        cancer_type: str,
+        mutation_count: int,
+        chemotherapy: str,
+        cas: float,
+    ) -> None:
+        """Add sample to the database."""
+        record_data = {
+            "Patient_id": patient_id,
+            "Sample_id": self.s_id,
+            "Collection_date": collection_date,
+            "Cancer_type": cancer_type,
+            "Mutation_count": mutation_count,
+            "Chemotherapy": chemotherapy,
+            "Cytolytic_activity_score": cas,
+        }
+        self.add_to_db(record_data, "Sample_id")
+
+    def delete_sample(self, sample_id: str) -> None:
+        """Delete sample from the database."""
+        c = self.conn.cursor()
+
+        # get the patient id associated with sample id
+        c.execute(
+            f"SELECT Patient_id FROM Sample \
+                WHERE Sample_id = ?",
+            (sample_id,),
+        )
+        patient_id = c.fetchone()[0]
+        self.delete_from_db(sample_id, "Sample_id")
+        # Check if patient has any remaining samples
         c = self.conn.cursor()
         c.execute(
-            "UPDATE Sample SET patient_id = ?, cancer_type = ?, "
-            "collection_date = ?, mutation_count = ?, "
-            "chemotherapy = ?, CAS = ? WHERE sample_id = ?",
-            (
-                self.p_id,
-                self.cancer_type,
-                self.collection_date,
-                self.mutation_count,
-                self.chemotherapy,
-                self.CAS,
-            ),
+            f"SELECT COUNT(*) FROM Sample \
+            WHERE Patient_id = ?",
+            (patient_id,),
         )
-        self.conn.commit()
+        count = c.fetchone()[0]
+
+        # If the patient has no remaining samples, delete the patient's record
+        if count == 0:
+            Patient(self.conn, patient_id).delete_patient(patient_id)
+
+    def update_sample(
+        self,
+        patient_id: str,
+        collection_date: str,
+        cancer_type: str,
+        mutation_count: int,
+        chemotherapy: str,
+        cas: float,
+    ) -> None:
+        """Update sample in the database."""
+        record_data = {
+            "Patient_id": patient_id,
+            "Sample_id": self.s_id,
+            "Collection_date": collection_date,
+            "Cancer_type": cancer_type,
+            "Mutation_count": mutation_count,
+            "Chemotherapy": chemotherapy,
+            "Cytolytic_activity_score": cas,
+        }
+        self.update_in_db(record_data, "Sample_id")
