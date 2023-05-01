@@ -1,7 +1,5 @@
 """Test Module."""
 
-import os
-import sys
 import unittest
 import sqlite3
 from datetime import datetime
@@ -11,8 +9,8 @@ from src.main import Patient, Sample
 class TestPatient(unittest.TestCase):
     """Class for testing Patient's functions."""
 
-    def Setup(self):
-        """Set up function."""
+    def __init__(self):
+        """Initialize."""
         self.conn = sqlite3.connect(":memory:")
         self.patient = Patient(self.conn, "ABC")
         self.patient.add_patient(
@@ -72,8 +70,8 @@ class TestPatient(unittest.TestCase):
 class TestSample(unittest.TestCase):
     """Class for testing Sample's functions."""
 
-    def Setup(self):
-        """Set up function."""
+    def __Init__(self):
+        """Initialize."""
         self.conn = sqlite3.connect(":memory:")
         self.sample = Sample(self.conn, "8ehciud")
         self.sample.add_sample(
