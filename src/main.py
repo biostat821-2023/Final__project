@@ -44,7 +44,7 @@ class Patient(Record):
         c = self.conn.cursor()
         # Find the sample id and get those clinical records
         c.execute(
-            f"SELECT Sample_id FROM Sample \
+            "SELECT Sample_id FROM Sample \
                 WHERE Patient_id = ?",
             (patient_id,),
         )
@@ -118,7 +118,7 @@ class Sample(Record):
 
         # get the patient id associated with sample id
         c.execute(
-            f"SELECT Patient_id FROM Sample \
+            "SELECT Patient_id FROM Sample \
                 WHERE Sample_id = ?",
             (sample_id,),
         )
@@ -127,7 +127,7 @@ class Sample(Record):
         # Check if patient has any remaining samples
         c = self.conn.cursor()
         c.execute(
-            f"SELECT COUNT(*) FROM Sample \
+            "SELECT COUNT(*) FROM Sample \
             WHERE Patient_id = ?",
             (patient_id,),
         )

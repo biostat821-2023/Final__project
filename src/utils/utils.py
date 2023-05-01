@@ -1,7 +1,6 @@
 """Helper Class Module."""
 
 import sqlite3
-from typing import Dict
 
 
 class Record:
