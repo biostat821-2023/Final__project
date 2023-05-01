@@ -24,7 +24,7 @@ CREATE TABLE Sample (
     sample_id INTEGER PRIMARY KEY,
     patient_id INTEGER NOT NULL,
     collection_date DATE NOT NULL,
-    type TEXT NOT NULL,
+    cancer_type TEXT NOT NULL,
     mutation_count INTEGER,
     chemotherapy TEXT,
     CAS INTEGER,
@@ -46,6 +46,7 @@ class Patient:
         phone: int,
         email: str,
         patient_id: str,
+        conn: sqlite3.Connection,
     ) -> None:
         """Initialize Patient obejct."""
         self.name = name
@@ -55,6 +56,7 @@ class Patient:
         self.phone = phone
         self.email = email
         self.p_id = patient_id
+        self.conn = conn
 
         # Validate age input
         if age is not None:
@@ -143,19 +145,23 @@ class Sample:
     def __init__(
         self,
         patient_id: str,
-        type: str,
+        cancer_type: str,
         collection_date: str,
         mutation_count: int,
         chemotherapy: str,
         CAS: int,
+        conn: sqlite3.Connection,
+        sample_id=None,
     ) -> None:
         """Initialize Sample object."""
         self.p_id = patient_id
-        self.type = type
+        self.cancer_type = cancer_type
         self.collection_date = collection_date
         self.mutation_count = mutation_count
         self.chemotherapy = chemotherapy
         self.CAS = CAS
+        self.conn = conn
+        self.sample_id = sample_id
 
     def add_to_db(self, db_path: str) -> None:
         """Add patinet's clinical record to table."""
@@ -176,12 +182,12 @@ class Sample:
 
             # Insert row into Sample table
             c.execute(
-                "INSERT INTO Sample (patient_id, type, collection_date, "
-                "mutation_count, chemotherapy, CAS) "
+                "INSERT INTO Sample (patient_id, cancer_type, "
+                "collection_date, mutation_count, chemotherapy, CAS) "
                 "VALUES (?, ?, ?, ?, ?, ?)",
                 (
                     self.p_id,
-                    self.type,
+                    self.cancer_type,
                     self.collection_date,
                     self.mutation_count,
                     self.chemotherapy,
@@ -196,6 +202,11 @@ class Sample:
         with sqlite3.connect(db_path) as conn:
             c = conn.cursor()
             c.execute(
+                "SELECT patient_id FROM Sample WHERE sample_id = ?",
+                (self.sample_id,),
+            )
+            patient_id = c.fetchone()[0]
+            c.execute(
                 "DELETE FROM Sample \
                     WHERE sample_id = ?",
                 (self.sample_id,),
@@ -205,7 +216,7 @@ class Sample:
             # check if patient has any other samples in the database
             c.execute(
                 "SELECT COUNT(*) FROM Sample " "WHERE patient_id = ?",
-                (self.p_id,),
+                (patient_id,),
             )
             num_samples = c.fetchone()[0]
 
@@ -223,12 +234,12 @@ class Sample:
         with sqlite3.connect(db_path) as conn:
             c = conn.cursor()
             c.execute(
-                "UPDATE Sample SET patient_id = ?, type = ?, "
+                "UPDATE Sample SET patient_id = ?, cancer_type = ?, "
                 "collection_date = ?, mutation_count = ?, "
                 "chemotherapy = ?, CAS = ? WHERE sample_id = ?",
                 (
                     self.p_id,
-                    self.type,
+                    self.cancer_type,
                     self.collection_date,
                     self.mutation_count,
                     self.chemotherapy,
