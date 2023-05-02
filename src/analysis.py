@@ -2,11 +2,9 @@
 
 import sqlite3
 import os
-import numpy as np
-import pandas as pd
 import matplotlib.pyplot as plt  # type: ignore
 from dataclasses import dataclass
-from typing import List, Tuple, Dict
+from typing import List, Tuple, Dict, Any
 from datetime import datetime
 from src.main import Patient, Sample
 
@@ -15,7 +13,7 @@ def ask_for_user_input() -> str:
     """Ask for user input to determine the database to connect to."""
     while True:
         user_input = input(
-            f"Enter the name of the database to connect to" f" or type 'exit' to quit: "
+            "Enter the name of the database to connect to or type 'exit' to quit: "  # noqa
         )
         if user_input == "exit":
             exit()
@@ -57,7 +55,7 @@ def select_analysis() -> str:
     return user_input
 
 
-def perform_analysis() -> None:
+def perform_analysis() -> Any:
     """Perform the analysis."""
     patient_results, sample_results = connect_db()
     value = select_analysis()
@@ -67,17 +65,18 @@ def perform_analysis() -> None:
     elif value == "2":
         results = find_unique_cancer_types(sample_results)
     elif value == "3":
-        results = find_samples_in_cancer_type(sample_results)
+        results = find_samples_in_cancer_type(sample_results)  # type: ignore
     elif value == "4":
-        results = find_age_distribution(patient_results)
+        results = find_age_distribution(patient_results)  # type: ignore
     elif value == "5":
-        results = find_samples_in_patient(sample_results)
+        results = find_samples_in_patient(sample_results)  # type: ignore
     elif value == "6":
-        results = find_samples_in_cancertype_patient(sample_results)
+        results = find_samples_in_cancertype_patient(sample_results)  # type: ignore  # noqa
     else:
         print("Invalid input. Please try again.")
-    #print(results)
+    # print(results)
     return results
+
 
 # Find the unique number of patients in the database
 def find_unique_patients(patients: List[Tuple]) -> int:
