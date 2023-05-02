@@ -3,12 +3,11 @@
 import pytest
 import sqlite3
 from typing import List, Tuple
-import subprocess
 from src.analysis import (
     ask_for_user_input,
     connect_db,
     select_analysis,
-    #perform_analysis,
+    # perform_analysis,
     find_unique_patients,
     find_unique_cancer_types,
     find_samples_in_cancer_type,
@@ -219,6 +218,7 @@ def test_select_anlaysis(monkeypatch):
     value = select_analysis()
     # Check the result
     assert value == "3"
+
 
 def test_find_unique_patients() -> None:
     """Test find_unique_patients function."""
