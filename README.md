@@ -41,4 +41,13 @@ We also intend to analyze information specifically to a patient, which includes:
 
 ## For Contributors
 
+Local Testing
+To test the project locally, follow these steps:
+
+Clone the repository to your local machine.
+Install the required dependencies using pip or conda:
+pip install -r requirements-test.txt
+
+Run the tests using the testing framework of your choice
+
 
