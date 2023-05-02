@@ -1,4 +1,4 @@
-# Final Project
+# Final Project [![tests](https://github.com/biostat821-2023/Final__project/actions/workflows/tests.yml/badge.svg)](https://github.com/biostat821-2023/Final__project/actions/workflows/tests.yml)
 
 ## Goal
 The aim of this project is to provide flexibility to allow users to provide demographic and clinicial information specifically on breast cancer. To retrieve the necessary input names, we have utilized datasets from [cBioportal](https://www.cbioportal.org/study/clinicalData?id=brca_smc_2018) that contain both general and cancer-specific information. The Patient table in the database comprises columns of `Patient ID`, `Patient name`, `Gender`, `Date of Birth`, `Age`, `Phone`, and `E-mail`. The Sample table in the database comprises columns of `Patient ID`, `Sample ID`, `Collection Date`, `Cancer Type`, `Mutation Count`, `Chemotherapy`, `Cytolytic Activity Score`.
