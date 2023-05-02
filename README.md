@@ -36,11 +36,25 @@ We also intend to analyze information specifically to a patient, which includes:
 - Number of samples for each patient
 - Number of samples for each cancer type for patient
 
-### 3. Containerization and CI
-- Use Docker to contianerize the application
-- Build automated checks for the dependencies, format, tests when pushing new codes using Github Actions
+### 3. Command Line Tool
+- CLT Arguments
+  - -f: "db" for database service, "da" for data analysis service
+  - --db_function: "add", "update", "delete"
+  - --db_level: "patient", "sample"
+
+- CLT Use Case
+  - Add patient data: `python app.py -f db --db_function add --db_level patient`
+  - Update patient data: `python app.py -f db --db_function update --db_level patient`
+  - Delete patient data: `python app.py -f db --db_function delete --db_level patient`
+  - Add sample data: `python app.py -f db --db_function add --db_level sample`
+  - Update sample data: `python app.py -f db --db_function update --db_level sample`
+  - Delete sample data: `python app.py -f db --db_function delete --db_level sample`
+  - Data Analysis module: `python app.py -f da`
 
 ![Schema](https://user-images.githubusercontent.com/112578023/235781006-d2ecdce1-3dd0-4ede-8285-91097d157b7e.png)
+
+### 4. CI
+- Build automated checks for the dependencies, format, tests when pushing new codes using Github Actions
 
 --------------------------------------------------------------
 
@@ -50,8 +64,14 @@ To use our breast cancer information input and analysis service, please follow t
 1. Install Dependencies
 Before using our service, make sure you have the necessary dependencies installed. Navigate to the project directory and run the following command to install all dependencies: `pip install -r requirements.txt`
 
-2. Enter Patient Information and Analyze Data
-To enter patient demographic and clinical data and analyze the data, run the following command in the project directory: `python analysis.py`
+2. Access functions using CLT
+  - Add patient data: python app.py -f db --db_function add --db_level patient
+  - Update patient data: `python app.py -f db --db_function update --db_level patient`
+  - Delete patient data: `python app.py -f db --db_function delete --db_level patient`
+  - Add sample data: `python app.py -f db --db_function add --db_level sample`
+  - Update sample data: `python app.py -f db --db_function update --db_level sample`
+  - Delete sample data: `python app.py -f db --db_function delete --db_level sample`
+  - Data Analysis module: `python app.py -f da`
 
 ## For Contributors
 
