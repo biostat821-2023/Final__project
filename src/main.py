@@ -119,7 +119,7 @@ class Sample(Record):
         if count == 0:
             print(
                 f"Patient with ID {patient_id} does not \
-                exist in Patient. Sample not added."
+exist in Patient. Sample not added."
             )
             return
 

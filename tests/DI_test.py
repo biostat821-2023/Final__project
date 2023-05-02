@@ -31,7 +31,7 @@ def test_add_patient():
     """Test if patient's record is added."""
     p1.add_patient("John Doe", "Male", "1980-1-1", 1234567890, "john@doe.com")
     p2.add_patient("Mike Tang", "Male", "1998-1-1", 234623820, "mike@ta.com")
-    # Test p1
+    # Test if p1 successfully added
     c.execute("SELECT * from Patient where Patient_id = 'ABC'")
     result_1 = c.fetchall()
     assert result_1[0][0] == "ABC"
@@ -42,6 +42,13 @@ def test_add_patient():
     assert result_1[0][5] == 1234567890
     assert result_1[0][6] == "john@doe.com"
 
+    # Test if repeatative patient id will be added
+    p1.add_patient("Roy Hu", "Male", "1996-1-1", 23467491, "roy@hu.com")
+    c.execute("SELECT * from Patient where Patient_id = 'ABC'")
+    result_1 = c.fetchall()
+    assert len(result_1) == 1
+    assert result_1[0][1] == "John Doe"
+
 
 def test_add_sample():
     """Test if sample's record is added."""
@@ -50,6 +57,7 @@ def test_add_sample():
         "DEF", "2021-11-30", "Breast Invasive Ductal Carcinoma", 32, "No", 3.49
     )
     s3.add_sample("DEF", "2022-1-7", "Breast Invasive Carcinoma", 6, "No", 5.2)
+
     # Test s1
     c.execute("SELECT * from Sample where Sample_id = 'e2f8ybfg'")
     result = c.fetchall()
@@ -60,6 +68,13 @@ def test_add_sample():
     assert result[0][4] == 9
     assert result[0][5] == "No"
     assert result[0][6] == 1.5
+
+    # Test if repeatative sample id will be added
+    s1.add_sample("BCD", "2018-3-3", "Breast Invasive Carcinoma", 3, "No", 2.0)
+    c.execute("SELECT * from Sample where Sample_id = 'e2f8ybfg'")
+    result = c.fetchall()
+    assert len(result) == 1
+    assert result[0][1] == "ABC"
 
 
 def test_update_patient():
