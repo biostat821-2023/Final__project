@@ -1,10 +1,11 @@
 """Command line tool for database management and data analysis."""
 import argparse
-from utils.check_db import link_to_database
-from main import Patient, Sample
+from src.utils.check_db import link_to_database
+from src.main import Patient, Sample
 
 
 def main():
+    """Command Lint Tool for DB and DA."""
     # link_to_database()
     parser = argparse.ArgumentParser(description="DB and DA Command Line Tool.")  # noqa
     parser.add_argument(
@@ -42,7 +43,9 @@ def main():
             elif level == "sample":
                 patient_id = input("Enter patient's ID: ")
                 sample_id = input("Enter sample's ID: ")
-                collection_date = input("Enter sample's collection date (YYYY-M-D): ")
+                collection_date = input(
+                    "Enter sample's collection date (YYYY-M-D): "
+                )  # noqa
                 cancer_type = input("Enter sample's cancer type: ")
                 mutation_count = int(input("Enter sample's mutation count: "))
                 chemotehrapy = input("If Chemotherapy (Yes/No): ")
@@ -72,7 +75,9 @@ def main():
             elif level == "sample":
                 patient_id = input("Enter patient's ID: ")
                 sample_id = input("Enter sample's ID: ")
-                collection_date = input("Enter sample's collection date (YYYY-M-D): ")
+                collection_date = input(
+                    "Enter sample's collection date (YYYY-M-D): "
+                )  # noqa
                 cancer_type = input("Enter sample's cancer type: ")
                 mutation_count = int(input("Enter sample's mutation count: "))
                 chemotehrapy = input("If Chemotherapy (Yes/No): ")
