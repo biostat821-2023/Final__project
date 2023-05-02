@@ -1,12 +1,12 @@
 """Test analysis module."""
 
-import pytest
-import sqlite3
+# import pytest
+import sqlite3  # pylint: disable=W0611
 from typing import List, Tuple
 from src.analysis import (
-    ask_for_user_input,
-    connect_db,
-    select_analysis,
+    # ask_for_user_input,
+    # connect_db,
+    # select_analysis,
     # perform_analysis,
     find_unique_patients,
     find_unique_cancer_types,
