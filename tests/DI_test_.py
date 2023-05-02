@@ -1,7 +1,5 @@
 """Test Module."""
 import sqlite3
-import sys
-from datetime import datetime
 from src.main import Patient, Sample
 
 conn = sqlite3.connect(":memory:")
@@ -34,7 +32,6 @@ def test_add_patient():
     p1.add_patient("John Doe", "Male", "1980-1-1", 1234567890, "john@doe.com")
     p2.add_patient("Mike Tang", "Male", "1998-1-1", 234623820, "mike@ta.com")
     # Test p1
-    c = conn.cursor()
     c.execute("SELECT * from Patient where Patient_id = 'ABC'")
     result_1 = c.fetchall()
     assert result_1[0][0] == "ABC"
@@ -54,7 +51,6 @@ def test_add_sample():
     )
     s3.add_sample("DEF", "2022-1-7", "Breast Invasive Carcinoma", 6, "No", 5.2)
     # Test s1
-    c = conn.cursor()
     c.execute("SELECT * from Sample where Sample_id = 'e2f8ybfg'")
     result = c.fetchall()
     assert result[0][0] == "e2f8ybfg"
@@ -69,7 +65,6 @@ def test_add_sample():
 def test_update_patient():
     """Test if patient's record is updated."""
     p1.update_patient("Jack Wong", "Male", "1980-1-1", 12345678, "jack@w.com")
-    c = conn.cursor()
     c.execute("SELECT * FROM Patient WHERE Patient_id = 'ABC'")
     result = c.fetchall()
     assert result[0][0] == "ABC"
@@ -86,7 +81,6 @@ def test_update_sample():
     s1.update_sample(
         "ABC", "2020-4-7", "Breast Invasive Lobular Carcinoma", 6, "No", 2.3
     )
-    c = conn.cursor()
     c.execute("SELECT * FROM Sample WHERE Sample_id = 'e2f8ybfg'")
     result = c.fetchall()
     assert result[0][0] == "e2f8ybfg"
@@ -102,7 +96,6 @@ def test_delete_patient():
     """Test if patient's record is deleted."""
     # Check if p2 is deleted
     p2.delete_patient("DEF")
-    c = conn.cursor()
     c.execute("SELECT * FROM Patient WHERE Patient_id = 'DEF'")
     result = c.fetchone()
     assert result is None
@@ -117,7 +110,6 @@ def test_delete_sample():
     """Test if sample's record is deleted."""
     # Check if s1 is deleted
     s2.delete_sample("e2f8ybfg")
-    c = conn.cursor()
     c.execute("SELECT * FROM Sample WHERE Sample_id = 'e2f8ybfg'")
     result = c.fetchone()
     assert result is None
