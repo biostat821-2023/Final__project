@@ -37,15 +37,29 @@ We also intend to analyze information specifically to a patient, which includes:
 --------------------------------------------------------------
 
 ## For End-Users
+To use our breast cancer information input and analysis service, please follow the instructions below:
 
+1. Install Dependencies
+Before using our service, make sure you have the necessary dependencies installed. Navigate to the project directory and run the following command to install all dependencies: pip install -r requirements.txt
+
+2. Enter Patient Information
+To enter patient demographic and clinical data, run the following command in the project directory:
+
+3. Analyze Data
+To analyze the data, run the following command in the project directory: python analysis.py
 
 ## For Contributors
 
-Local Testing
-To test the project locally, follow these steps:
+For contributors, we welcome anyone who is interested in contributing to our project. Here are some ways you can get involved:
 
-- Clone the repository to your local machine.
-- Install the required dependencies using pip or conda: pip install -r requirements.txt
-- Run the tests using the testing framework of your choice
+Code contributions: If you have experience in Python and/or SQL, you can contribute by adding new features, improving existing code, or fixing bugs. We have a GitHub repository where you can find the project code and documentation. Simply fork the repository, make your changes, and submit a pull request for review.
+
+Testing and bug reporting: Even if you're not comfortable with coding, you can still contribute by testing the application and reporting any bugs you find. This will help us improve the quality of our code and make the application more reliable.
+
+Documentation: We always welcome contributions to our documentation. If you have experience in technical writing or just want to help improve our documentation, you can contribute by updating our documentation, fixing errors, or adding new sections.
+
+Feedback: We are always looking for feedback on our project. If you have any suggestions or ideas on how we can improve our application, please let us know.
+
+If you have any questions, feel free to reach out to us on GitHub or via email. We look forward to your contributions!
 
 
