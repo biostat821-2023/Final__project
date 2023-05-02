@@ -1,5 +1,4 @@
-# Final Project [![tests](https://github.com/biostat821-2023/Final__project/actions/workflows/tests.yml/badge.svg)](https://github.com/biostat821-2023/Final__project/actions/workflows/tests.yml)
-[![checks](https://github.com/biostat821-2023/Final__project/actions/workflows/checks.yml/badge.svg)](https://github.com/biostat821-2023/Final__project/actions/workflows/checks.yml)
+# Final Project [![tests](https://github.com/biostat821-2023/Final__project/actions/workflows/tests.yml/badge.svg)](https://github.com/biostat821-2023/Final__project/actions/workflows/tests.yml) [![checks](https://github.com/biostat821-2023/Final__project/actions/workflows/checks.yml/badge.svg)](https://github.com/biostat821-2023/Final__project/actions/workflows/checks.yml)
 
 
 ## Goal
