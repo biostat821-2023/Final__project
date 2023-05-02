@@ -8,7 +8,7 @@ from unittest.mock import patch
 
 def test_add_patient(capsys):
     # args = ["-f", "db", "--db_function", "add", "--db_level patient"]
-    inputs = ["12", "Test Name", "1980-1-1", "123", "test@gmail.com"]
+    inputs = ["123", "Test Name", "1980-1-1", "123", "test@gmail.com"]
     # main(args)
     # patch("builtins.input", side_effect=inputs)
     commands = [
