@@ -25,3 +25,10 @@ def if_create_database():
         )
         conn.commit()
         conn.close()
+
+
+def link_to_database(file_name: str = "database.db"):
+    """Create and link to database."""
+    if_create_database()
+    conn = sqlite3.connect(file_name)
+    return conn
