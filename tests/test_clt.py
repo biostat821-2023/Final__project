@@ -6,7 +6,6 @@ path = os.path.abspath(".")
 sys.path.append(path)
 
 import subprocess  # noqa: E402
-from src.app import main  # noqa: E402
 import sqlite3  # noqa: E402
 
 
