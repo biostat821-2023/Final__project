@@ -5,3 +5,6 @@ pydocstyle
 pylint
 pytest
 coverage
+pandas
+numpy
+matplotlib
