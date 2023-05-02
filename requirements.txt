@@ -3,3 +3,6 @@ mypy
 pycodestyle 
 pydocstyle
 pylint
+pytest
+coverage
+sqlite3
