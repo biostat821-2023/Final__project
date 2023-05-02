@@ -3,53 +3,95 @@
 import sqlite3
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt  # type: ignore
 from dataclasses import dataclass
-from typing import List
+from typing import List, Tuple, Dict
 from datetime import datetime
-from main import Patient, Sample
+from src.main import Patient, Sample
+
+# Ask for user input to determine the database to connect to
+#     - If user input is invalid, ask for user input again
+#     - If user input is valid, connect to the database
+#     - If user input is "exit", exit the program
 
 
-# Connect to database
-conn = sqlite3.connect("/workspaces/Final__project/database.db")
-cur = conn.cursor()
-cur.execute("SELECT * FROM Patient;")
-patient_results = cur.fetchall()
-cur.execute("SELECT * FROM Sample;")
-sample_results = cur.fetchall()
+# Ask for user input again if user input is invalid
+def ask_for_user_input() -> str:
+    """Ask for user input again if user input is invalid."""
+    user_input = input(
+        f"Please enter the name of the database " f"you want to connect to: "
+    )
+    return user_input
 
-print(patient_results)
-print(sample_results)
 
-# Analyze global information of the dataset
-#     - Number of patients
-#     - Number of cancer types
-#     - Number of samples in each cancer type
-#     - Age distribution
+def connect_db() -> Tuple[List[Tuple], List[Tuple]]:
+    """Connect to the database."""
+    user_input = ask_for_user_input()
+    conn = sqlite3.connect(user_input)
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM Patient;")
+    patient_results = cur.fetchall()
+    cur.execute("SELECT * FROM Sample;")
+    sample_results = cur.fetchall()
+    return patient_results, sample_results
+
+
+patient_results, sample_results = connect_db()
+# print(patient_results)
+# print(sample_results)
+
+
+def select_analysis() -> str:
+    """Select the analysis to perform."""
+    user_input = input(
+        f"Please enter the number of the analysis you want to perform: "
+        f"\n1. Find the unique number of patients in the database"
+        f"\n2. Find the unique number of cancer types in the database"
+        f"\n3. Find the number of samples in each cancer type"
+        f"\n4. Find the age distribution of the patients"
+        f"\n5. Find the number of samples for each patient"
+    )
+    return user_input
+
+
+def perform_analysis() -> None:
+    """Perform the analysis."""
+    value = select_analysis()
+    patient_results, sample_results = connect_db()
+    if value == "1":
+        find_unique_patients(patient_results)
+    elif value == "2":
+        find_unique_cancer_types(sample_results)
+    elif value == "3":
+        find_samples_in_cancer_type(sample_results)
+    elif value == "4":
+        find_age_distribution(patient_results)
+    elif value == "5":
+        find_samples_in_patient(sample_results)
+    else:
+        print("Invalid input. Please try again.")
 
 
 # Find the unique number of patients in the database
-def find_unique_patients(patients: List[Patient]) -> int:
+def find_unique_patients(patients: List[Tuple]) -> int:
     """Find the unique number of patients in the database."""
     unique_patients = set()
     for patient in patients:
         unique_patients.add(patient[0])
     return len(unique_patients)
 
+
 # Find the unique number of cancer types in the database
-def find_unique_cancer_types(samples: List[Sample]) -> int:
+def find_unique_cancer_types(samples: List[Tuple]) -> int:
     """Find the unique number of cancer types in the database."""
     unique_cancer_types = set()
     for sample in samples:
         unique_cancer_types.add(sample[3])
     return len(unique_cancer_types)
 
-print(f"Total number of patients in our database is: {find_unique_patients(patient_results)}.")
-print(f"Total number of samples in our database is: {len(sample_results)}.")
-print(f"Total number of cancer types in our database is: {find_unique_cancer_types(sample_results)}.")
 
 # Find the number of samples in each cancer type
-def find_samples_in_cancer_type(samples: List[Sample]) -> dict:
+def find_samples_in_cancer_type(samples: List[Tuple]) -> dict:
     """Find the number of samples in each cancer type."""
     cancer_type_dict = {}
     for sample in samples:
@@ -59,10 +101,9 @@ def find_samples_in_cancer_type(samples: List[Sample]) -> dict:
             cancer_type_dict[sample[3]] += 1
     return cancer_type_dict
 
-print(f"Number of samples in each cancer type is: {find_samples_in_cancer_type(sample_results)}.")
 
 # Find the age distribution of the patients
-def find_age_distribution(patients: List[Patient]) -> dict:
+def find_age_distribution(patients: List[Tuple]) -> dict:
     """Find the age distribution of the patients."""
     age_dict = {}
     for patient in patients:
@@ -72,10 +113,9 @@ def find_age_distribution(patients: List[Patient]) -> dict:
             age_dict[patient[4]] += 1
     return age_dict
 
-print(f"Age distribution of the patients is: {find_age_distribution(patient_results)}.")
 
 # Visualize the number of samples in each cancer type
-def plot_samples_in_cancer_type(samples: List[Sample]) -> None:
+def plot_samples_in_cancer_type(samples: List[Tuple]) -> None:
     """Plot the number of samples in each cancer type."""
     cancer_type = [sample[3] for sample in samples]
     plt.hist(cancer_type)
@@ -84,11 +124,13 @@ def plot_samples_in_cancer_type(samples: List[Sample]) -> None:
     plt.title("Number of Samples in Each Cancer Type")
     plt.savefig("../cancer_type.png")
     plt.show()
-  
-plot_samples_in_cancer_type(sample_results)
+
+
+# plot_samples_in_cancer_type(sample_results)
+
 
 # Visualize the age distribution of the patients
-def plot_age_distribution(patients: List[Patient]) -> None:
+def plot_age_distribution(patients: List[Tuple]) -> None:
     """Plot the age distribution of the patients."""
     age = [patient[4] for patient in patients]
     plt.hist(age, bins=20)
@@ -97,9 +139,38 @@ def plot_age_distribution(patients: List[Patient]) -> None:
     plt.title("Age Distribution of Patients")
     plt.show()
 
-plot_age_distribution(patient_results)
+
+# plot_age_distribution(patient_results)
 
 # Analyze patient information
 #     - Number of samples in each patient
 #     - Number of samples in each cancer type of each patient
 
+
+# Find the number of samples in each patient
+def find_samples_in_patient(samples: List[Tuple]) -> Dict[str, int]:
+    """Find the number of samples in each patient."""
+    patient_dict = {}  # type: Dict[str, int]
+    for sample in samples:
+        if sample[1] not in patient_dict:
+            patient_dict[sample[1]] = 1
+        else:
+            patient_dict[sample[1]] += 1
+    return patient_dict
+
+
+# Find the number of samples in each cancer type of each patient
+def find_samples_in_cancertype_patient(samples: List[Tuple]) -> Dict[str, int]:
+    """Find the number of samples in each cancer type of each patient."""
+    patient_cancer_type_dict = {}  # type: ignore
+    for sample in samples:
+        if sample[1] not in patient_cancer_type_dict:
+            patient_cancer_type_dict[sample[1]] = {}  # type: ignore
+        if sample[3] not in patient_cancer_type_dict[sample[1]]:
+            patient_cancer_type_dict[sample[1]][sample[3]] = 1
+        else:
+            patient_cancer_type_dict[sample[1]][sample[3]] += 1
+    return patient_cancer_type_dict
+
+
+print(find_samples_in_cancertype_patient(sample_results))

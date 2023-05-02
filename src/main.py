@@ -6,8 +6,8 @@ from datetime import datetime
 # from src.utils.utils import Record
 # from src.utils.check_db import if_create_database
 
-from utils.utils import Record
-from utils.check_db import if_create_database
+from src.utils.utils import Record
+from src.utils.check_db import if_create_database
 
 class Patient(Record):
     """Class for patient's clinical record."""
