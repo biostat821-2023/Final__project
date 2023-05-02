@@ -169,7 +169,7 @@ def test_delete_patient(capsys):  # pylint: disable=W0613
     c = conn.cursor()
     c.execute("SELECT * from Patient where Patient_id = '12'")
     res = c.fetchall()
-    assert res is None
+    assert len(res) == 0
 
     c.execute("SELECT Sample_id FROM Sample WHERE Patient_id = '12'")
     sample_ids = c.fetchall()
