@@ -1,7 +1,7 @@
 # Final Project
 
 ## Goal
-The aim of this project is to gather demographical and clinical information from users specifically on breast cancer. To retrieve the necessary input names, we have utilized datasets from cBioportal that contain both general and cancer-specific information. The Patient table in the database comprises columns of Patient ID, Patient's name, Gender, Date of Birth, Age, Phone, and E-mail. The Sample table in the database comprises columns of Patient ID, Sample ID, Collection Date, Cancer Type, Mutation Count, Chemotherapy, Cytolytic Activity Score.
+The aim of this project is to provide flexibility to allow users to provide demographic and clinicial information specifically on breast cancer. To retrieve the necessary input names, we have utilized datasets from cBioportal that contain both general and cancer-specific information. The Patient table in the database comprises columns of Patient ID, Patient's name, Gender, Date of Birth, Age, Phone, and E-mail. The Sample table in the database comprises columns of Patient ID, Sample ID, Collection Date, Cancer Type, Mutation Count, Chemotherapy, Cytolytic Activity Score.
 
 
 ## Implementation
