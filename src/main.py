@@ -2,8 +2,8 @@
 
 import sqlite3
 from datetime import datetime
-from utils.utils import Record
-from utils.check_db import if_create_database
+from src.utils.utils import Record
+from src.utils.check_db import if_create_database
 
 
 class Patient(Record):
@@ -109,6 +109,20 @@ class Sample(Record):
         cas: float,
     ) -> None:
         """Add sample to the database."""
+        # Check if patient ID exists in the Patient table
+        c = self.conn.cursor()
+        c.execute(
+            "SELECT COUNT(*) FROM Patient WHERE Patient_id = ?",
+            (patient_id,),
+        )
+        count = c.fetchone()[0]
+        if count == 0:
+            print(
+                f"Patient with ID {patient_id} does not \
+                exist in Patient. Sample not added."
+            )
+            return
+
         collection_date = datetime.strptime(
             collection_date_str,
             "%Y-%m-%d",

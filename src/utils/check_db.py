@@ -15,11 +15,11 @@ def if_create_database():
                         DateofBirth DATE, Age INTEGER, Phone INTEGER, \
                             Email TEXT, PRIMARY KEY (patient_id))"""
         )
-        conn.execute(
-            """CREATE TABLE Sample (Sample_id INTEGER PRIMARY KEY, \
-                Patient_id INTEGER NOT NULL, Collection_date DATE NOT NULL, \
+        c.execute(
+            """CREATE TABLE Sample (Sample_id TEXT PRIMARY KEY, \
+                Patient_id TEXT NOT NULL, Collection_date DATE NOT NULL, \
                     Cancer_type TEXT NOT NULL, Mutation_count INTEGER, \
-                        Chemotherapy TEXT, CAS INTEGER, FOREIGN KEY \
+                        Chemotherapy TEXT, Cytolytic_activity_score REAL, FOREIGN KEY \
                             (patient_id) REFERENCES Patient(patient_id)) """
         )
         conn.commit()
