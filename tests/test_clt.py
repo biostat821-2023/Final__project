@@ -126,7 +126,7 @@ def test_update_sample(capsys):  # pylint: disable=W0613
         "-f",
         "db",
         "--db_function",
-        "add",
+        "update",
         "--db_level",
         "sample",
     ]
