@@ -12,5 +12,8 @@ format:
 
 lint:
 	pylint --disable=R,C $(PYTHON_FILES)
+
+test:
+	python -m pytest -vv tests
 	
 all: install format lint
