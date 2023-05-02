@@ -23,7 +23,25 @@ To achieve our objectives, we plan to develop a Python script and convert it int
 
 
 
+# Final Project
+
+In this project, we aim to provide flexibility to allow users to provide clinicial information. 
+
+Commands:
+
+pip install -r requirements.txt
+export PYTHONPATH=/path/to/src:$PYTHONPATH
+
+## Input Function
+
+In the input section, we allow the users to `add patient`, `update patient`, `delete patient`, `add sample`, `update sample`, `delete sample`.
+
+
 ## Analysis Function
+
+In the analysis section, we first ask users which database they want to connect to and check if the database exists. We ask until we have a valid input. 
+
+Then we provide crude analysis on the following information: 
 
 ### Analyze global information of the dataset
 - Number of patients
@@ -34,4 +52,8 @@ To achieve our objectives, we plan to develop a Python script and convert it int
 ### Visualize important information
 - Number of samples in each cancer type
 - Age distribution
+
+
+
+
 
