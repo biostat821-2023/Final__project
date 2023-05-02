@@ -1,0 +1,7 @@
+sample_id,patient_id,collection_date,type,mutation_count,chemotherapy,CAS
+2198eu8f,1sfo923h9ir,2018-05-21,Breast Invasive Ductal Carcinoma,6,No,61.7
+5djvbiw,1sfo923h9ir,2019-11-05,Breast Invasive Ductal Carcinoma,12,Yes,18.3
+er29udh,1sfo923h9ir,2020-02-23,Breast Invasive Ductal Carcinoma,2,Yes,12.5
+38ddfyh,8r2hc98d,2020-12-07,Breast Invasive Carcinoma,4,No,2.7
+893rhuf,8r2hc98d,2021-06-23,Breast Invasive Ductal Carcinoma,30,No,6.9
+a03bfgi,sjdfubg03,2022-09-17,Breast Invasive Lobular Carcinoma,47,Yes,1.2
