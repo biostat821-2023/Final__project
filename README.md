@@ -12,8 +12,16 @@ To achieve our objectives, we plan to develop a Python script and build a librar
 - (2) Use SQLite and store the data into local database
 
 2. Analytical Service
-- (1) Use Pandas and Numpy to do data analysis
-- (2) Use Matplotlib to visualize the output
+We intend to grant users with great flexibility, therefore in the analysis section, we first ask users which database they want to connect to and check if the database exists. We ask until we have a valid input and users can also choose to exit the program. We then ask the users to choose which analysis they want to perform. 
+
+Specifically for this project, we conduct analysis on global information of the dataset, which includes: 
+- Number of unique patients
+- Number of unique cancer types
+- Number of samples in each cancer type
+- Age distribution (including visualization) 
+We also intend to analyze information specifically to a patient, which includes: 
+- Number of samples for each patient
+- Number of samples for each cancer type for patient
 
 3. Containerization and CI
 - (1) Use Docker to contianerize the application
