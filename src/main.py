@@ -2,8 +2,8 @@
 
 import sqlite3
 from datetime import datetime
-from src.utils.utils import Record
-from src.utils.check_db import if_create_database
+from utils.utils import Record
+from utils.check_db import if_create_database
 
 
 class Patient(Record):
