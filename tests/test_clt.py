@@ -1,19 +1,19 @@
 """Test CLT."""
-import monkeypatch
+import subprocess
 from src.app import main
 import sqlite3
 import os
+from unittest.mock import patch
 
 
-def test_add_patient(monkeypatch):
+def test_add_patient(capsys):
     args = ["-f", "db", "--db_function", "add", "--db_level patient"]
+    inputs = ["12", "Test Name", "1980-1-1", 123, "test@gmail.com"]
     main(args)
+    patch("builtins.input", side_effect=inputs)
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
     c.execute("SELECT * from Patient where Patient_id = '123'")
-    inputs = ["12", "Test Name", "1980-1-1", 123, "test@gmail.com"]
-    for input in inputs:
-        monkeypatch.setattr("builtins.input", lambda _: input)
     res = c.fetchall()
     assert res[0][0] == "12"
     assert res[0][1] == "Test Name"
