@@ -1,4 +1,10 @@
 """Command line tool for database management and data analysis."""
+import sys
+import os
+
+path = os.path.abspath("../")
+sys.path.append(path)
+
 import argparse
 from src.utils.check_db import link_to_database
 from src.main import Patient, Sample
