@@ -34,8 +34,6 @@ We also intend to analyze information specifically to a patient, which includes:
 
 ![Untitled drawing](https://user-images.githubusercontent.com/70648104/230992080-781d7835-48cb-4170-bd17-e628a2373beb.jpg)
 
-<img width="625" alt="image" src="https://user-images.githubusercontent.com/112578023/235781006-d2ecdce1-3dd0-4ede-8285-91097d157b7e.png">
-
 --------------------------------------------------------------
 
 ## For End-Users
@@ -48,7 +46,7 @@ Before using our service, make sure you have the necessary dependencies installe
 To enter patient demographic and clinical data, run the following command in the project directory:
 
 3. Analyze Data
-To analyze the data, run the following command in the project directory: python analysis.py
+To analyze the data, run the following command in the project directory: 'python analysis.py'
 
 ## For Contributors
 
