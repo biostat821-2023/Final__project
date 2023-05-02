@@ -5,9 +5,13 @@ The aim of this project is to provide flexibility to allow users to provide demo
 
 
 ## Implementation
-To achieve our objectives, we plan to develop a Python script and build a library interface which will prompt users to provide breast cancer-related information. Subsequently, we will store the collected data in a build-up database. For this project, we will use some existing breast cancer datasets to mock a database. Furthermore, we will create analysis functions that will offer essential yet straightforward breast cancer analysis and present the results to user. Finally, we will containerize all our work.
+To achieve our objectives, we plan to develop a Python script and build a library interface which will prompt users to provide breast cancer-related information. Subsequently, we will store the collected data in a build-up database. For this project, we will use some existing breast cancer datasets to mock a database and then create analysis functions that will offer essential yet straightforward breast cancer analysis and present the results to user. Finally, we also build up commandline tools to make the implementation and analysis more efficient.
 
 ### 1. Data Input Service
+
+Users will be asked to fill in demographic information and clinical information which will connect to SQLite. 
+
+We have two classes and each class has three functions 
 - (1) Enter the patient's demographic data and clinical data through a series of prompts. 
 - (2) Use SQLite and store the data into local database
 
@@ -29,3 +33,12 @@ We also intend to analyze information specifically to a patient, which includes:
 - (2) Build automated checks for the dependencies, format, tests when pushing new codes using Github Actions
 
 ![Untitled drawing](https://user-images.githubusercontent.com/70648104/230992080-781d7835-48cb-4170-bd17-e628a2373beb.jpg)
+
+--------------------------------------------------------------
+
+## For End-Users
+
+
+## For Contributors
+
+
