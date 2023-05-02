@@ -43,7 +43,7 @@ To use our breast cancer information input and analysis service, please follow t
 Before using our service, make sure you have the necessary dependencies installed. Navigate to the project directory and run the following command to install all dependencies: pip install -r requirements.txt
 
 2. Enter Patient Information and Analyze Data
-To enter patient demographic and clinical data and analyze the data, run the following command in the project directory: 'python analysis.py'
+To enter patient demographic and clinical data and analyze the data, run the following command in the project directory: `python analysis.py`
 
 ## For Contributors
 
