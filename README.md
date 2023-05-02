@@ -20,3 +20,18 @@ To achieve our objectives, we plan to develop a Python script and convert it int
 - (2) Build automated checks for the dependencies, format, tests when pushing new codes using Github Actions
 
 ![Untitled drawing](https://user-images.githubusercontent.com/70648104/230992080-781d7835-48cb-4170-bd17-e628a2373beb.jpg)
+
+
+
+## Analysis Function
+
+### Analyze global information of the dataset
+- Number of patients
+- Number of cancer types
+- Number of samples in each cancer type
+- Age distribution
+
+### Visualize important information
+- Number of samples in each cancer type
+- Age distribution
+
