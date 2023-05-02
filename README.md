@@ -85,6 +85,6 @@ We welcome anyone who is interested in contributing to our project. Here are som
 
 3. Feedback: If you have any suggestions or ideas on how we can improve our application, please let us know.
 
-If you have any questions, feel free to reach out to us on GitHub or via email. We look forward to your contributions!
+If you have any questions, feel free to reach out to us on GitHub or via email. We look forward to your contributions.
 
 
