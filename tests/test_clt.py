@@ -47,9 +47,9 @@ def test_add_sample(capsys):
         "abc",
         "2019-3-3",
         "Breast Invasive Carcinoma",
-        9,
+        "9",
         "No",
-        1.5,
+        "1.5",
     ]
     commands = [
         "python",
