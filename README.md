@@ -11,9 +11,9 @@ To achieve our objectives, we plan to develop a Python script and build a librar
 
 Users will be asked to fill in demographic information and clinical information which will connect to SQLite. 
 
-We have two classes and each class has three functions 
-- (1) Enter the patient's demographic data and clinical data through a series of prompts. 
-- (2) Use SQLite and store the data into local database
+We have two classes, Patient and Sample, and each class has three functions to add, delete, and update the demographical or clincial information.
+- Enter the patient's demographic data and clinical data through a series of prompts. 
+- Use SQLite and store the data into local database
 
 ### 2. Analytical Service
 
@@ -29,8 +29,8 @@ We also intend to analyze information specifically to a patient, which includes:
 - Number of samples for each cancer type for patient
 
 ### 3. Containerization and CI
-- (1) Use Docker to contianerize the application
-- (2) Build automated checks for the dependencies, format, tests when pushing new codes using Github Actions
+- Use Docker to contianerize the application
+- Build automated checks for the dependencies, format, tests when pushing new codes using Github Actions
 
 ![Schema](https://user-images.githubusercontent.com/112578023/235781006-d2ecdce1-3dd0-4ede-8285-91097d157b7e.png)
 
