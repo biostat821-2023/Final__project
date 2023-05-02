@@ -147,3 +147,71 @@ def test_update_sample(capsys):  # pylint: disable=W0613
     assert res[0][6] == 1.6
     conn.close()
     # os.remove("database.db")
+
+
+def test_delete_patient(capsys):  # pylint: disable=W0613
+    inputs = ["12"]
+    commands = [
+        "python",
+        "src/app.py",
+        "-f",
+        "db",
+        "--db_function",
+        "delete",
+        "--db_level",
+        "patient",
+    ]
+    process = subprocess.Popen(
+        commands, stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True
+    )
+    process.communicate("\n".join(inputs))
+    conn = sqlite3.connect("database.db")
+    c = conn.cursor()
+    c.execute("SELECT * from Patient where Patient_id = '12'")
+    res = c.fetchall()
+    assert res is None
+
+    c.execute("SELECT Sample_id FROM Sample WHERE Patient_id = '12'")
+    sample_ids = c.fetchall()
+    assert len(sample_ids) == 0
+    conn.close()
+    # os.remove("database.db")
+
+
+# def test_update_sample(capsys):  # pylint: disable=W0613
+#     inputs = [
+#         "12",
+#         "abc",
+#         "2019-3-4",
+#         "Breast Invasive Carcinoma",
+#         "9",
+#         "No",
+#         "1.6",
+#     ]
+#     commands = [
+#         "python",
+#         "src/app.py",
+#         "-f",
+#         "db",
+#         "--db_function",
+#         "update",
+#         "--db_level",
+#         "sample",
+#     ]
+#     process = subprocess.Popen(
+#         commands, stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True
+#     )
+#     process.communicate("\n".join(inputs))
+#     conn = sqlite3.connect("database.db")
+#     c = conn.cursor()
+#     c.execute("SELECT * from Sample where Sample_id = 'abc'")
+#     res = c.fetchall()
+#     assert res[0][0] == "abc"
+#     assert res[0][1] == "12"
+#     assert res[0][2] == "2019-03-04 00:00:00"
+#     assert res[0][3] == "Breast Invasive Carcinoma"
+#     assert res[0][4] == 9
+#     assert res[0][5] == "No"
+#     assert res[0][6] == 1.6
+#     conn.close()
+#     # os.remove("database.db")
