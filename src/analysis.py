@@ -41,13 +41,13 @@ def connect_db() -> Tuple[List[Tuple], List[Tuple]]:
 def select_analysis() -> str:
     """Select the analysis to perform."""
     user_input = input(
-        "Please enter the number of the analysis you want to perform: " +
-        "\n1. Find the unique number of patients in the database" +
-        "\n2. Find the unique number of cancer types in the database" +
-        "\n3. Find the number of samples in each cancer type" +
-        "\n4. Find the age distribution of the patients" +
-        "\n5. Find the number of samples for each patient" +
-        "\n6. Find the number of samples for each cancer type for patient"
+        "Please enter the number of the analysis you want to perform: "
+        + "\n1. Find the unique number of patients in the database"
+        + "\n2. Find the unique number of cancer types in the database"
+        + "\n3. Find the number of samples in each cancer type"
+        + "\n4. Find the age distribution of the patients"
+        + "\n5. Find the number of samples for each patient"
+        + "\n6. Find the number of samples for each cancer type for patient"
     )
     return user_input
 
