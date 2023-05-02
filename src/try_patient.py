@@ -1,8 +1,8 @@
 """Upload patient data to db."""
 
 import sqlite3
-from main import Patient
-from utils.check_db import if_create_database
+from src.main import Patient
+from src.utils.check_db import if_create_database
 
 # Create a connection to the database
 if_create_database()
