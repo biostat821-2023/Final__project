@@ -1,6 +1,7 @@
 """Crude Analysis on Clinical Information."""
 
 import sqlite3
+import os
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt  # type: ignore
@@ -9,19 +10,19 @@ from typing import List, Tuple, Dict
 from datetime import datetime
 from src.main import Patient, Sample
 
-# Ask for user input to determine the database to connect to
-#     - If user input is invalid, ask for user input again
-#     - If user input is valid, connect to the database
-#     - If user input is "exit", exit the program
 
-
-# Ask for user input again if user input is invalid
 def ask_for_user_input() -> str:
-    """Ask for user input again if user input is invalid."""
-    user_input = input(
-        f"Please enter the name of the database " f"you want to connect to: "
-    )
-    return user_input
+    """Ask for user input to determine the database to connect to."""
+    while True:
+        user_input = input(
+            f"Enter the name of the database to connect to" f" or type 'exit' to quit: "
+        )
+        if user_input == "exit":
+            exit()
+        if os.path.exists(user_input):
+            return user_input
+        print(f"Database file {user_input} not found.")
+        print(f"Please enter a valid file name.")
 
 
 def connect_db() -> Tuple[List[Tuple], List[Tuple]]:
@@ -36,7 +37,8 @@ def connect_db() -> Tuple[List[Tuple], List[Tuple]]:
     return patient_results, sample_results
 
 
-patient_results, sample_results = connect_db()
+# # For easy testing
+# patient_results, sample_results = connect_db()
 # print(patient_results)
 # print(sample_results)
 
@@ -50,6 +52,7 @@ def select_analysis() -> str:
         f"\n3. Find the number of samples in each cancer type"
         f"\n4. Find the age distribution of the patients"
         f"\n5. Find the number of samples for each patient"
+        f"\n6. Fidn the number of samples for each cancer type for patient"
     )
     return user_input
 
@@ -68,6 +71,8 @@ def perform_analysis() -> None:
         find_age_distribution(patient_results)
     elif value == "5":
         find_samples_in_patient(sample_results)
+    elif value == "6":
+        find_samples_in_cancertype_patient(sample_results)
     else:
         print("Invalid input. Please try again.")
 
@@ -126,9 +131,6 @@ def plot_samples_in_cancer_type(samples: List[Tuple]) -> None:
     plt.show()
 
 
-# plot_samples_in_cancer_type(sample_results)
-
-
 # Visualize the age distribution of the patients
 def plot_age_distribution(patients: List[Tuple]) -> None:
     """Plot the age distribution of the patients."""
@@ -138,13 +140,6 @@ def plot_age_distribution(patients: List[Tuple]) -> None:
     plt.ylabel("Number of Patients")
     plt.title("Age Distribution of Patients")
     plt.show()
-
-
-# plot_age_distribution(patient_results)
-
-# Analyze patient information
-#     - Number of samples in each patient
-#     - Number of samples in each cancer type of each patient
 
 
 # Find the number of samples in each patient
@@ -171,6 +166,3 @@ def find_samples_in_cancertype_patient(samples: List[Tuple]) -> Dict[str, int]:
         else:
             patient_cancer_type_dict[sample[1]][sample[3]] += 1
     return patient_cancer_type_dict
-
-
-print(find_samples_in_cancertype_patient(sample_results))
