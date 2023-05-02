@@ -3,10 +3,7 @@
 import sqlite3
 import os
 import matplotlib.pyplot as plt  # type: ignore
-from dataclasses import dataclass
 from typing import List, Tuple, Dict, Any
-from datetime import datetime
-from src.main import Patient, Sample
 
 
 def ask_for_user_input() -> str:
@@ -20,7 +17,7 @@ def ask_for_user_input() -> str:
         if os.path.exists(user_input):
             return user_input
         print(f"Database file {user_input} not found.")
-        print(f"Please enter a valid file name.")
+        print("Please enter a valid file name.")
 
 
 def connect_db() -> Tuple[List[Tuple], List[Tuple]]:
@@ -44,13 +41,13 @@ def connect_db() -> Tuple[List[Tuple], List[Tuple]]:
 def select_analysis() -> str:
     """Select the analysis to perform."""
     user_input = input(
-        f"Please enter the number of the analysis you want to perform: "
-        f"\n1. Find the unique number of patients in the database"
-        f"\n2. Find the unique number of cancer types in the database"
-        f"\n3. Find the number of samples in each cancer type"
-        f"\n4. Find the age distribution of the patients"
-        f"\n5. Find the number of samples for each patient"
-        f"\n6. Find the number of samples for each cancer type for patient"
+        "Please enter the number of the analysis you want to perform: " +
+        "\n1. Find the unique number of patients in the database" +
+        "\n2. Find the unique number of cancer types in the database" +
+        "\n3. Find the number of samples in each cancer type" +
+        "\n4. Find the age distribution of the patients" +
+        "\n5. Find the number of samples for each patient" +
+        "\n6. Find the number of samples for each cancer type for patient"
     )
     return user_input
 
