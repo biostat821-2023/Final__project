@@ -59,19 +59,24 @@ def perform_analysis() -> Any:
     results = None
     if value == "1":
         results = find_unique_patients(patient_results)
+        print(f"The number of unique patients is {results}.")
     elif value == "2":
         results = find_unique_cancer_types(sample_results)
+        print(f"The number of unique cancer types is {results}.")
     elif value == "3":
         results = find_samples_in_cancer_type(sample_results)  # type: ignore
+        print(f"The number of samples in each cancer type is {results}.")
     elif value == "4":
         results = find_age_distribution(patient_results)  # type: ignore
+        plot_age_distribution(patient_results)
     elif value == "5":
         results = find_samples_in_patient(sample_results)  # type: ignore
+        print(f"For each patient the sample is {results}.")
     elif value == "6":
         results = find_samples_in_cancertype_patient(sample_results)  # type: ignore  # noqa
+        print(f"The samples for each cancer type of each patient is {results}.")  # noqa
     else:
         print("Invalid input. Please try again.")
-    # print(results)
     return results
 
 
