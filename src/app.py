@@ -5,9 +5,9 @@ import os
 path = os.path.abspath(".")
 sys.path.append(path)
 
-import argparse
-from src.utils.check_db import link_to_database
-from src.main import Patient, Sample
+import argparse  # noqa: E402
+from src.utils.check_db import link_to_database  # noqa: E402
+from src.main import Patient, Sample  # noqa: E402
 
 
 def main():
