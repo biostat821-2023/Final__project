@@ -38,7 +38,7 @@ def test_add_patient(capsys):
     assert res[0][5] == 123
     assert res[0][6] == "test@gmail.com"
     conn.close()
-    os.remove("database.db")
+    # os.remove("database.db")
 
 
 def test_add_sample(capsys):
@@ -77,4 +77,4 @@ def test_add_sample(capsys):
     assert res[0][5] == "No"
     assert res[0][6] == 1.5
     conn.close()
-    os.remove("database.db")
+    # os.remove("database.db")
