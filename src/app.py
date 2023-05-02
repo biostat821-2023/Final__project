@@ -8,6 +8,7 @@ sys.path.append(path)
 import argparse  # noqa: E402
 from src.utils.check_db import link_to_database  # noqa: E402
 from src.main import Patient, Sample  # noqa: E402
+from src.analysis import perform_analysis  # noqa: E402
 
 
 def main():
@@ -112,6 +113,9 @@ def main():
                 sample.delete_sample(sample_id)
 
         conn.close()
+
+    elif function == "da":
+        perform_analysis()
 
 
 if __name__ == "__main__":
