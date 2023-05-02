@@ -55,15 +55,13 @@ To enter patient demographic and clinical data and analyze the data, run the fol
 
 ## For Contributors
 
-For contributors, we welcome anyone who is interested in contributing to our project. Here are some ways you can get involved:
+We welcome anyone who is interested in contributing to our project. Here are some ways you can get involved:
 
-Code contributions: If you have experience in Python and/or SQL, you can contribute by adding new features, improving existing code, or fixing bugs. We have a GitHub repository where you can find the project code and documentation. Simply fork the repository, make your changes, and submit a pull request for review.
+1. Code contributions: If you have experience in Python and/or SQL, you can contribute by adding new features, improving existing code, or fixing bugs. We have a GitHub repository where you can find the project code and documentation. Simply fork the repository, make your changes, and submit a pull request for review.
 
-Testing and bug reporting: Even if you're not comfortable with coding, you can still contribute by testing the application and reporting any bugs you find. This will help us improve the quality of our code and make the application more reliable.
+2. Testing and bug reporting: We compile our testing codes under the test folder. If you want to test user-input services, you can run python -m pytest `Di_test.py`. If you want to test the analytics services, you can run python -m pytest `test_analysis.py`. If you want to test the command line tool services, you can check `test_clt.py`. Even if you're not comfortable with coding, you can still contribute by testing the application and reporting any bugs you find. This will help us improve the quality of our code and make the application more reliable.
 
-Documentation: We always welcome contributions to our documentation. If you have experience in technical writing or just want to help improve our documentation, you can contribute by updating our documentation, fixing errors, or adding new sections.
-
-Feedback: We are always looking for feedback on our project. If you have any suggestions or ideas on how we can improve our application, please let us know.
+3. Feedback: If you have any suggestions or ideas on how we can improve our application, please let us know.
 
 If you have any questions, feel free to reach out to us on GitHub or via email. We look forward to your contributions!
 
