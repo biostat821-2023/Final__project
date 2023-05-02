@@ -2,8 +2,8 @@
 
 import sqlite3
 from datetime import datetime
-from utils.utils import Record
-from utils.check_db import if_create_database
+from src.utils.utils import Record
+from src.utils.check_db import if_create_database
 
 
 class Patient(Record):
@@ -19,12 +19,16 @@ class Patient(Record):
         self,
         name: str,
         gender: str,
-        dob: datetime,
+        dob_str: str,
         phone: int,
         email: str,
     ) -> None:
         """Add patient's demographic record to the database."""
         tod = datetime.today()
+        dob = datetime.strptime(
+            dob_str,
+            "%Y-%m-%d",
+        )
         calculated_age = (
             tod.year - dob.year - ((tod.month, tod.day) < (dob.month, dob.day))
         )
@@ -32,7 +36,7 @@ class Patient(Record):
             "Patient_id": self.p_id,
             "Name": name,
             "Gender": gender,
-            "DateofBorth": dob,
+            "DateofBirth": dob,
             "Age": calculated_age,
             "Phone": phone,
             "Email": email,
@@ -61,12 +65,16 @@ class Patient(Record):
         self,
         name: str,
         gender: str,
-        dob: datetime,
+        dob_str: str,
         phone: int,
         email: str,
     ) -> None:
         """Update patient's demographic record in the database."""
         tod = datetime.today()
+        dob = datetime.strptime(
+            dob_str,
+            "%Y-%m-%d",
+        )
         calculated_age = (
             tod.year - dob.year - ((tod.month, tod.day) < (dob.month, dob.day))
         )
@@ -94,13 +102,31 @@ class Sample(Record):
     def add_sample(
         self,
         patient_id: str,
-        collection_date: str,
+        collection_date_str: str,
         cancer_type: str,
         mutation_count: int,
         chemotherapy: str,
         cas: float,
     ) -> None:
         """Add sample to the database."""
+        # Check if patient ID exists in the Patient table
+        c = self.conn.cursor()
+        c.execute(
+            "SELECT COUNT(*) FROM Patient WHERE Patient_id = ?",
+            (patient_id,),
+        )
+        count = c.fetchone()[0]
+        if count == 0:
+            print(
+                f"Patient with ID {patient_id} does not \
+exist in Patient. Sample not added."
+            )
+            return
+
+        collection_date = datetime.strptime(
+            collection_date_str,
+            "%Y-%m-%d",
+        )
         record_data = {
             "Patient_id": patient_id,
             "Sample_id": self.s_id,
@@ -140,13 +166,17 @@ class Sample(Record):
     def update_sample(
         self,
         patient_id: str,
-        collection_date: str,
+        collection_date_str: str,
         cancer_type: str,
         mutation_count: int,
         chemotherapy: str,
         cas: float,
     ) -> None:
         """Update sample in the database."""
+        collection_date = datetime.strptime(
+            collection_date_str,
+            "%Y-%m-%d",
+        )
         record_data = {
             "Patient_id": patient_id,
             "Sample_id": self.s_id,

@@ -1,5 +1,6 @@
 """Helper Class Module."""
 
+# src/utils/utils.py
 import sqlite3
 
 
@@ -24,7 +25,7 @@ class Record:
         if count > 0:
             print(
                 f"{self.table_name} with {id_col_name} \
-                    {record_data[id_col_name]} already exists."
+{record_data[id_col_name]} already exists."
             )
             return
         # insert new record
