@@ -11,9 +11,17 @@ To achieve our objectives, we plan to develop a Python script and build a librar
 
 Users will be asked to fill in demographic information and clinical information which will connect to SQLite. 
 
-We have two classes, Patient and Sample, and each class has three functions to add, delete, and update the demographical or clincial information.
-- Enter the patient's demographic data and clinical data through a series of prompts. 
-- Use SQLite and store the data into local database
+Through a series of prompts, we ask users to enter important information. We have two classes and each class has three basic functions to help collect information. 
+
+### Patient
+- `add patient`
+- `update patient`
+- `delete patient`
+
+### Sample
+- `add sample`
+- `update sample`
+- `delete sample`
 
 ### 2. Analytical Service
 
