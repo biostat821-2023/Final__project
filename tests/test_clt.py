@@ -7,10 +7,24 @@ from unittest.mock import patch
 
 
 def test_add_patient(capsys):
-    args = ["-f", "db", "--db_function", "add", "--db_level patient"]
+    # args = ["-f", "db", "--db_function", "add", "--db_level patient"]
     inputs = ["12", "Test Name", "1980-1-1", 123, "test@gmail.com"]
-    main(args)
-    patch("builtins.input", side_effect=inputs)
+    # main(args)
+    # patch("builtins.input", side_effect=inputs)
+    commands = [
+        "python",
+        "src/app.py",
+        "-f",
+        "db",
+        "--db_function",
+        "add",
+        "--db_level",
+        "patient",
+    ]
+    process = subprocess.Popen(
+        commands, stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True
+    )
+    stdout, _ = process.communicate("\n".join(inputs))
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
     c.execute("SELECT * from Patient where Patient_id = '123'")
