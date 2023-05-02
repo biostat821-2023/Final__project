@@ -5,3 +5,4 @@ pydocstyle
 pylint
 pytest
 coverage
+monkeypatch
