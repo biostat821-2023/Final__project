@@ -10,7 +10,7 @@ from src.app import main  # noqa: E402
 import sqlite3  # noqa: E402
 
 
-def test_add_patient(capsys):
+def test_add_patient(capsys):  # pylint: disable=W0613
     inputs = ["12", "Test Name", "Male", "1980-1-1", "123", "test@gmail.com"]
     commands = [
         "python",
@@ -25,7 +25,7 @@ def test_add_patient(capsys):
     process = subprocess.Popen(
         commands, stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True
     )
-    stdout, _ = process.communicate("\n".join(inputs))
+    process.communicate("\n".join(inputs))
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
     c.execute("SELECT * from Patient where Patient_id = '12'")
@@ -41,7 +41,7 @@ def test_add_patient(capsys):
     # os.remove("database.db")
 
 
-def test_add_sample(capsys):
+def test_add_sample(capsys):  # pylint: disable=W0613
     inputs = [
         "12",
         "abc",
@@ -64,7 +64,7 @@ def test_add_sample(capsys):
     process = subprocess.Popen(
         commands, stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True
     )
-    stdout, _ = process.communicate("\n".join(inputs))
+    process.communicate("\n".join(inputs))
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
     c.execute("SELECT * from Sample where Sample_id = 'abc'")
