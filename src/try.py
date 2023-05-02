@@ -1,7 +1,6 @@
 """Upload data to db."""
 
 import sqlite3
-from datetime import datetime
 from src.main import Patient, Sample
 from src.utils.check_db import if_create_database
 
